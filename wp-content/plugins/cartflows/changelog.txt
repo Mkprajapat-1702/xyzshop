@@ -1,3 +1,8 @@
+Version 1.6.4 - Thursday, 21st January 2021
+- Fix: Admin dashboard was not loading or showing 500 error on few servers.
+- Fix: Showing wrong product name in product settings after reload.
+- Fix: Bulk import flows were not working.
+
 Version 1.6.3 - Monday, 18th January 2021
 - Fix: Checkout steps backend was not working when a variation product was selected.
 

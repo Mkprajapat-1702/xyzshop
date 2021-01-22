@@ -140,13 +140,24 @@ class Importer extends AjaxBase {
 
 		$flow_data = ( isset( $_POST['flow_data'] ) ) ? json_decode( stripslashes( $_POST['flow_data'] ), true ) : array(); // phpcs:ignore
 
-		$imported_flow = \CartFlows_Importer::get_instance()->import_single_flow_from_json( $flow_data, true );
-
 		$response_data = array(
-			'message'      => 'Imported flow successfully',
+			'message'      => 'Error occured. Flow not imported.',
 			'flow_data'    => $flow_data,
-			'redirect_url' => admin_url( 'admin.php?page=' . CARTFLOWS_SLUG . '&action=wcf-edit-flow&flow_id=' . $imported_flow['flow_id'] ),
+			'redirect_url' => admin_url( 'admin.php?page=' . CARTFLOWS_SLUG ),
 		);
+
+		if ( is_array( $flow_data ) ) {
+			$imported_flow = \CartFlows_Importer::get_instance()->import_from_json_data( $flow_data );
+
+			$response_data['message']      = 'Flows Imported successfully';
+			$response_data['redirect_url'] = admin_url( 'admin.php?page=' . CARTFLOWS_SLUG );
+
+		} else {
+			$imported_flow = \CartFlows_Importer::get_instance()->import_single_flow_from_json( $flow_data, true );
+
+			$response_data['message']      = 'Imported flow successfully';
+			$response_data['redirect_url'] = admin_url( 'admin.php?page=' . CARTFLOWS_SLUG . '&action=wcf-edit-flow&flow_id=' . $imported_flow['flow_id'] );
+		}
 
 		wp_send_json_success( $response_data );
 	}

@@ -525,6 +525,11 @@ if ( ! class_exists( 'CartFlows_Batch_Process' ) ) :
 
 			$response = wp_remote_get( $url, $api_args );
 
+			/* Check one more time */
+			if ( is_wp_error( $response ) ) {
+				$response = wp_remote_get( $url, $api_args );
+			}
+
 			if ( ! is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) === 200 ) {
 				$total_requests = json_decode( wp_remote_retrieve_body( $response ), true );
 
@@ -535,14 +540,23 @@ if ( ! class_exists( 'CartFlows_Batch_Process' ) ) :
 
 					return $total_requests['pages'];
 				}
-			}
+			} else {
 
-			if ( defined( 'WP_CLI' ) ) {
-				WP_CLI::line( 'BLOCK: Request Failed! Still Calling..' );
-			}
-			update_site_option( 'cartflows-batch-status-string', 'Request Failed! Still Calling..', 'no' );
+				wcf()->logger->sync_log( 'Client\'s server is blocking requests. May be client\'s server firewall is blocking request. Make sure a firewall or any kind of secuirty pluging is blocking requests or not?' );
 
-			$this->get_total_requests( $page_builder_slug );
+				/* Fallback default data if client server is blocking requests */
+				$total_requests = array(
+					'no_of_items' => 15,
+					'pages'       => 1,
+					'per_page'    => 100,
+				);
+
+				update_site_option( 'cartflows-batch-status-string', 'Updated requests ' . $total_requests['pages'], 'no' );
+
+				update_site_option( 'cartflows-' . $page_builder_slug . '-requests', $total_requests['pages'], 'no' );
+
+				return $total_requests['pages'];
+			}
 		}
 
 		/**

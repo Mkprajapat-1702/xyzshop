@@ -139,8 +139,6 @@ if ( ! class_exists( 'CartFlows_Importer' ) ) :
 		public function import_from_json_data( $flows ) {
 			if ( $flows ) {
 
-				$default_page_builder = Cartflows_Helper::get_common_setting( 'default_page_builder' );
-
 				foreach ( $flows as $key => $flow ) {
 					$this->import_single_flow_from_json( $flow );
 				}
@@ -154,6 +152,8 @@ if ( ! class_exists( 'CartFlows_Importer' ) ) :
 		 * @param bool  $return return value.
 		 */
 		public function import_single_flow_from_json( $flow = array(), $return = false ) {
+
+			$default_page_builder = Cartflows_Helper::get_common_setting( 'default_page_builder' );
 
 			$flow_title = $flow['title'];
 			if ( post_exists( $flow['title'] ) ) {
@@ -215,7 +215,7 @@ if ( ! class_exists( 'CartFlows_Importer' ) ) :
 					 * @param array $flow_steps Flow steps.
 					 * @param array $flows All flows JSON data.
 					 */
-					do_action( 'cartflows_step_imported', $new_step_id, $flow_id, $new_step_args, $flow['steps'], $flows );
+					do_action( 'cartflows_step_imported', $new_step_id, $flow_id, $new_step_args, $flow['steps'] );
 
 					// Insert post meta.
 					update_post_meta( $new_step_id, 'wcf-flow-id', $flow_id );

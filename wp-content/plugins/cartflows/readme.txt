@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/BrainstormForce
 Tags: woocommerce, funnel builder, sales funnels, elementor, beaver builder
 Requires at least: 4.4
 Tested up to: 5.6
-Stable tag: 1.6.3
+Stable tag: 1.6.4
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -126,6 +126,11 @@ Glad you asked! Most normal users have less than 3 funnels on a single website, 
 5. Easily edit anything with your page builder.
 
 == Changelog ==
+
+= Version 1.6.4 - Thursday, 21st January 2021 =
+* Fix: Admin dashboard was not loading or showing 500 error on few servers.
+* Fix: Showing wrong product name in product settings after reload.
+* Fix: Bulk import flows were not working.
 
 = Version 1.6.3 - Monday, 18th January 2021 =
 * Fix: Checkout steps backend was not working when a variation product was selected.

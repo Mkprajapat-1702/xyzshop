@@ -378,12 +378,12 @@ class Steps extends AjaxBase {
 		$meta_options = AdminHelper::get_step_meta_options( $step_id );
 
 		$result = array(
-			'status'  => true,
-			'reload'  => false,
-			'options' => $meta_options,
+			'status'        => true,
+			'reload'        => false,
+			'options'       => $meta_options,
 			'step_view_url' => get_the_permalink( $step_id ),
 			/* translators: %s flow id */
-			'text'    => sprintf( __( 'Data saved succesfully for step id %s', 'cartflows' ), $step_id ),
+			'text'          => sprintf( __( 'Data saved succesfully for step id %s', 'cartflows' ), $step_id ),
 		);
 
 		wp_send_json( $result );
